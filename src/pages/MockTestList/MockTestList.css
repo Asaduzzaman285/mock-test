@@ -1,0 +1,432 @@
+/* MockTestList.css */
+
+.tests-page {
+    background-color: #26a5d0;
+    padding: 50px 0;
+  }
+  
+  .filters ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-bottom: 30px;
+    justify-content: center;
+  }
+  
+  .filters ul li {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 20px;
+    background-color: #fff;
+    transition: all 0.3s;
+  }
+  
+  .filters ul li.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .test-item {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  
+  .test-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .test-item .thumb {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .test-item .thumb img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .test-item .thumb .price {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 20px;
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .test-item .down-content {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .test-item .down-content .date {
+    position: absolute;
+    top: -40px;
+    left: 20px;
+    background-color: #fff;
+    width: 60px;
+    height: 80px;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .test-item .down-content .date h6 {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .test-item .down-content .date span {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #007bff;
+  }
+  
+  .test-item .down-content h4 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    transition: all 0.3s;
+  }
+  
+  .test-item .down-content h4:hover {
+    color: #007bff;
+  }
+  
+  .pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+  }
+  
+  .pagination ul li {
+    margin: 0 5px;
+  }
+  
+  .pagination ul li a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 50%;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  
+  .pagination ul li.active a {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px 0;
+    color: #777;
+  }
+  
+  /* Question view styles */
+  .test-question-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f7f8;
+  }
+  
+  .question-navigation {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .question-navigation h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .question-list {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .question-number {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+  }
+  
+  .question-number:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .question-number.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .question-number.answered {
+    position: relative;
+  }
+  
+  .question-number.answered::after {
+    content: "✓";
+    position: absolute;
+    right: 10px;
+    color: #28a745;
+  }
+  
+  .question-number.active.answered::after {
+    color: #fff;
+  }
+  
+  .back-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .question-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .question-header h3 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .timer {
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #dc3545;
+  }
+  
+  .question-body {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+  }
+  
+  .question-body p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .option {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    transition: all 0.2s;
+  }
+  
+  .option:hover {
+    background-color: #e9ecef;
+  }
+  
+  .option input[type="radio"] {
+    margin-right: 15px;
+  }
+  
+  .option label {
+    cursor: pointer;
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+  
+  .question-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .prev-button, .next-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .prev-button {
+    background-color: #6c757d;
+    color: #fff;
+  }
+  
+  .prev-button:hover:not(:disabled) {
+    background-color: #5a6268;
+  }
+  
+  .next-button {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .next-button:hover:not(:disabled) {
+    background-color: #0069d9;
+  }
+  
+  .prev-button:disabled, .next-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  /* SCORE CARD STYLES */
+
+.score-card-container {
+    /* Make the container take full viewport height for vertical centering */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+    /* Light background (optional) */
+    background-color: #fff;
+  
+    /* Spacing around the card */
+    padding: 20px;
+  }
+  
+  .score-card-content {
+    text-align: center;
+    max-width: 500px; /* Restricts width on large screens */
+    width: 100%;
+  }
+  
+  /* Optional: If you want a check icon above the heading */
+  .score-check-icon {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .score-card-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  /* Optional: If you want a heading for 'Score Card' */
+  .score-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* The white box containing the three stats */
+  .score-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+    /* Spacing inside the card */
+    padding: 20px;
+    margin: 20px 0;
+  
+    /* Distribute the three items evenly */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .score-item {
+    text-align: center;
+  }
+  
+  .score-item h4 {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .score-item p {
+    /* Pink circle for the numeric value */
+    background-color: #ff7b7b; /* Adjust for your preferred pink */
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    line-height: 60px; /* Vertically center text */
+    border-radius: 50%;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  /* The 'Go Back' button */
+  .go-back-button {
+    background-color: #ff7b7b;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+  
+  .go-back-button:hover {
+    background-color: #ff4f4f;
+  }
+  

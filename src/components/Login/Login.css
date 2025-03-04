@@ -1,0 +1,17 @@
+
+.login-container {
+    max-width: 400px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: #f8f9fa; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-title {
+    margin-bottom: 1.5rem;
+  }
+  
+ 
+  
