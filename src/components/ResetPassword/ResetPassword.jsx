@@ -1,119 +1,132 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+// import './Resetpassword.css';
+const BASE_URL = "https://mocktestapi.perppilot.com";
 
-// import './ResetPassword.css'; 
-
-const ResetPassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const Resetpassword = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    code: '',
+    password: '',
+    password_confirm: ''
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [tokenValid, setTokenValid] = useState(false);
-  const [tokenData, setTokenData] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract token from query parameters
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const token = queryParams.get('token');
-    if (!token) {
-      setError('Invalid or missing token.');
+    const params = new URLSearchParams(location.search);
+    const email = params.get('email');
+    const code = params.get('code');
+    if (email && code) {
+      setFormData(prev => ({ ...prev, email, code }));
+    }
+  }, [location]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    if (formData.password !== formData.password_confirm) {
+      setError('Passwords do not match');
+      setLoading(false);
       return;
     }
 
     try {
-      // Decode token (Base64 and then JSON parse)
-      const decoded = atob(token);
-      const data = JSON.parse(decoded);
-      setTokenData(data);
+      const response = await fetch(`${BASE_URL}/api/v1/password-reset`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
 
-      // Check if token has expired
-      if (Date.now() > data.exp) {
-        setError('This password reset link has expired. Please request a new one.');
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        navigate('/login');
       } else {
-        setTokenValid(true);
+        setError('Failed to reset password. Please try again.');
       }
     } catch (err) {
-      setError('Invalid token data.');
+      setError('An error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-  }, [location.search]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
-
-    // Simulate password update.
-    // In a real app, send `tokenData.email` and new password to the backend.
-    alert('Password has been reset successfully!');
-    navigate('/'); // Redirect to home or login page
   };
 
-  if (error) {
-    return (
-      <div className="container reset-container">
-        <h2 className="text-center reset-title">Reset Password</h2>
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      </div>
-    );
-  }
-
-  if (!tokenValid) {
-    return (
-      <div className="container reset-container">
-        <h2 className="text-center reset-title">Reset Password</h2>
-        <div className="alert alert-warning" role="alert">
-          Verifying token...
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="container reset-container">
-      <h2 className="text-center reset-title">Reset Password</h2>
-      <form onSubmit={handleSubmit} className="reset-form">
-        <div className="mb-3">
-          <label htmlFor="newPassword" className="form-label">New Password</label>
-          <input
-            id="newPassword"
-            type="password"
-            className="form-control"
-            placeholder="Enter new password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="confirmPassword" className="form-label">Confirm New Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            className="form-control"
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="text-center mb-4">Reset Password</h2>
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    value={formData.email}
+                    readOnly
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="code" className="form-label">Verification Code</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="code"
+                    value={formData.code}
+                    readOnly
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">New Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password_confirm" className="form-label">Confirm Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password_confirm"
+                    value={formData.password_confirm}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password_confirm: e.target.value }))}
+                    required
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary w-100"
+                  disabled={loading}
+                >
+                  {loading ? 'Resetting...' : 'Reset Password'}
+                </button>
+              </form>
+            </div>
           </div>
-        )}
-        <button type="submit" className="btn btn-primary w-100">
-          Reset Password
-        </button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default Resetpassword;

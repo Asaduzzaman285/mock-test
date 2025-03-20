@@ -1,24 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '(123) 456-7890',
+    name: '',
+    email: '',
+    phone: '',
     password: '********',
   });
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...profileData });
 
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      navigate('/login');
+      return;
+    }
+
+    const user = JSON.parse(userData);
+    setProfileData(prev => ({
+      ...prev,
+      name: user.name || '',
+      email: user.email || '',
+      roles: user.roles || [],
+    }));
+    setFormData(prev => ({
+      ...prev,
+      name: user.name || '',
+      email: user.email || '',
+      roles: user.roles || [],
+    }));
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setProfileData({ ...formData });
-    setIsEditing(false);
+    
+    // Get token from localStorage
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const token = userData?.token;
+
+    try {
+      const response = await fetch('https://mocktestapi.perppilot.com/api/v1/update-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+      if (data.status === 'success') {
+        setProfileData({ ...formData });
+        setIsEditing(false);
+        
+        // Update localStorage with new user data
+        localStorage.setItem('user', JSON.stringify({
+          ...userData,
+          name: formData.name,
+          email: formData.email
+        }));
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
 
   const mockTests = [
@@ -52,11 +105,10 @@ const ProfilePage = () => {
         <nav aria-label="breadcrumb" className="mb-4">
           <ol className="breadcrumb bg-white p-2 rounded">
             <li className="breadcrumb-item"><a href="/">Home</a></li>
-            <li className="breadcrumb-item"><a href="#">User</a></li>
             <li className="breadcrumb-item active" aria-current="page">Profile</li>
           </ol>
         </nav>
-
+  
         <div className="row">
           {/* Left Column */}
           <div className="col-md-4 mb-4">
@@ -64,7 +116,7 @@ const ProfilePage = () => {
             <div className="card text-center mb-4">
               <div className="card-body">
                 <img
-                  src="/api/placeholder/150/150"
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random`}
                   alt="Profile"
                   className="rounded-circle mb-3"
                   style={{
@@ -75,15 +127,16 @@ const ProfilePage = () => {
                   }}
                 />
                 <h4 className="card-title">{profileData.name}</h4>
-                <p className="card-text text-muted">Student</p>
-                <p className="card-text text-muted">Learning Platform User</p>
+                <p className="card-text text-muted">
+                  {profileData.roles && profileData.roles.join(', ')}
+                </p>
                 <div className="btn-group" role="group" aria-label="Profile actions">
                   <button className="btn btn-primary">Dashboard</button>
                   <button className="btn btn-outline-primary">Tests</button>
                 </div>
               </div>
             </div>
-
+  
             {/* Mock Tests Card */}
             <div className="card">
               <div className="card-header">
@@ -117,7 +170,7 @@ const ProfilePage = () => {
               </ul>
             </div>
           </div>
-
+  
           {/* Right Column */}
           <div className="col-md-8">
             {/* Profile Details Card */}
@@ -154,6 +207,7 @@ const ProfilePage = () => {
                           value={formData.email}
                           onChange={handleChange}
                           className="form-control"
+                          readOnly
                         />
                       </div>
                     </div>
@@ -208,6 +262,12 @@ const ProfilePage = () => {
                       <div className="col-sm-9">{profileData.email}</div>
                     </div>
                     <div className="row mb-3">
+                      <label className="col-sm-3 fw-bold">Role</label>
+                      <div className="col-sm-9">
+                        {profileData.roles && profileData.roles.join(', ')}
+                      </div>
+                    </div>
+                    <div className="row mb-3">
                       <label className="col-sm-3 fw-bold">Phone</label>
                       <div className="col-sm-9">{profileData.phone}</div>
                     </div>
@@ -219,7 +279,7 @@ const ProfilePage = () => {
                 )}
               </div>
             </div>
-
+  
             {/* Test Results and Performance Cards */}
             <div className="row">
               {/* Recent Test Results */}

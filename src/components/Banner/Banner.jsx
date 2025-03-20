@@ -15,7 +15,7 @@ const Banner = () => {
             <div className="col-lg-12">
               <div className="caption">
                 <h6>Hello Students</h6>
-                <h2>Welcome to Education</h2>
+                <h2>Welcome to the MockTest Arena</h2>
                 <p>
                   This is an edu meeting HTML CSS template provided by{' '}
                   <a rel="nofollow" href="https://templatemo.com/page/1" target="_blank">
